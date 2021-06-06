@@ -1,4 +1,7 @@
 #include <zephyr.h>
+#include <device.h>
+#include <devicetree.h>
+#include <gigadevice_gd32_dt.h>
 #include "dfr0299.h"
 
 uint8_t _received[DFPLAYER_RECEIVED_LENGTH];
@@ -27,6 +30,9 @@ void uint16ToArray(uint16_t value, uint8_t *array){
 
 void init_uart0(void)
 {
+    const struct device *uart2_dev;
+
+    uart2_dev = device_get_binding(USART2);
     /* enable GPIO clock */
     rcu_periph_clock_enable(RCU_GPIOA);
     /* enable USART clock */
@@ -63,6 +69,7 @@ int _put_char(int ch)
 
 void init_uart2(void)
 {
+        
     /* enable GPIO clock */
     rcu_periph_clock_enable(RCU_GPIOB);
     /* enable USART clock */
