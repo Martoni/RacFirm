@@ -9,6 +9,7 @@
 #include <devicetree.h>
 #include <drivers/gpio.h>
 #include <drivers/display.h>
+#include "dfr0299.h"
 
 /* LCD */
 #if DT_NODE_HAS_STATUS(DT_INST(0, sitronix_st7735r), okay)
@@ -88,7 +89,9 @@ void main(void)
 		return;
 	}
 	display_get_capabilities(display_dev, &capabilities);
-	uint32_t bufsize = capabilities.x_resolution * capabilities.y_resolution * get_pixel_depth(capabilities.current_pixel_format);
+	uint32_t bufsize = capabilities.x_resolution \
+			   * capabilities.y_resolution \
+			   * get_pixel_depth(capabilities.current_pixel_format);
 	bufsize = 12800;
 	printk("display buffer size = %d\n", bufsize);
 
