@@ -26,7 +26,7 @@ void uint16ToArray(uint16_t value, uint8_t *array){
 /* See https://longan.sipeed.com/zh/examples/printf.html */
 
 void init_uart0(void)
-{    
+{
     /* enable GPIO clock */
     rcu_periph_clock_enable(RCU_GPIOA);
     /* enable USART clock */
@@ -52,7 +52,6 @@ void init_uart0(void)
     usart_interrupt_enable(USART0, USART_INT_RBNE);
 }
 
-/* Pour que nous puissions utiliser printf avec bonheur */
 int _put_char(int ch)
 {
     usart_data_transmit(USART0, (uint8_t) ch );
@@ -63,7 +62,7 @@ int _put_char(int ch)
 }
 
 void init_uart2(void)
-{    
+{
     /* enable GPIO clock */
     rcu_periph_clock_enable(RCU_GPIOB);
     /* enable USART clock */

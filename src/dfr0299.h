@@ -1,8 +1,6 @@
 #ifndef DFR0299
 #define DFR0299
 
-
-
 #define DFPLAYER_PB_SOURCE_U     0
 #define DFPLAYER_PB_SOURCE_TF    1
 #define DFPLAYER_PB_SOURCE_AUX   2
@@ -92,10 +90,6 @@
 #define CMD_CURTRACKTF      0x4B
 #define CMD_CURTRACKUDISK   0x4C
 #define CMD_CURTRACKFLASH   0x4D
-
-#define bool int
-#define false (-1)
-#define true (1)
 
 /* Buffers */
 extern uint8_t _received[DFPLAYER_RECEIVED_LENGTH];
