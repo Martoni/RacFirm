@@ -9,6 +9,7 @@
 #include <devicetree.h>
 #include <drivers/gpio.h>
 #include <drivers/display.h>
+#include <drivers/uart.h>
 #include "dfr0299.h"
 
 /* LCD */
@@ -30,6 +31,9 @@
 /* 1000 msec = 1 sec */
 #define SLEEP_TIME_MS   1000
 
+
+#define UART2_NODE DT_ALIAS(uart_2)
+
 /* The devicetree node identifier for the "led0" alias. */
 #define LED0_NODE DT_ALIAS(led0)
 
@@ -44,6 +48,37 @@
 #define PIN    0
 #define FLAGS    0
 #endif
+
+/* uart fonctions */
+void init_uart2(void)
+{
+//    /* enable GPIO clock */
+//    rcu_periph_clock_enable(RCU_GPIOB);
+//    /* enable USART clock */
+//    rcu_periph_clock_enable(RCU_USART2);
+//    /* connect port to USARTx_Tx */
+//    gpio_init(GPIOB, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_10);
+//    /* connect port to USARTx_Rx */
+//    gpio_init(GPIOB, GPIO_MODE_IN_FLOATING, GPIO_OSPEED_50MHZ, GPIO_PIN_11);
+//
+//    /* USART configure */
+//    usart_deinit(USART2);
+//    usart_baudrate_set(USART2, 9600U);
+//    usart_word_length_set(USART2, USART_WL_8BIT);
+//    usart_stop_bit_set(USART2, USART_STB_1BIT);
+//    usart_parity_config(USART2, USART_PM_NONE);
+//    usart_hardware_flow_rts_config(USART2, USART_RTS_DISABLE);
+//    usart_hardware_flow_cts_config(USART2, USART_CTS_DISABLE);
+//    usart_receive_config(USART2, USART_RECEIVE_ENABLE);
+//    usart_transmit_config(USART2, USART_TRANSMIT_ENABLE);
+//    usart_enable(USART2);
+//
+//    usart_interrupt_enable(USART2, USART_INT_RBNE);
+}
+
+
+
+
 
 /* LCD function */
 static inline uint32_t get_pixel_depth(
@@ -69,9 +104,16 @@ void main(void)
 {
     const struct device *led_dev;
     const struct device *display_dev;
+    const struct device *uart2_dev;
     struct display_capabilities capabilities;
     bool led_is_on = true;
     int ret;
+
+    const struct uart_config uart2_cfg;
+
+    /* test uart2 */
+    uart2_dev = device_get_binding("UART_2");
+	uart_config_get(uart2_dev, &uart2_cfg);
 
     /* init led */
     led_dev = device_get_binding(LED0);

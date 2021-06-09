@@ -4,6 +4,7 @@
 #include <gigadevice_gd32_dt.h>
 #include "dfr0299.h"
 
+
 uint8_t _received[DFPLAYER_RECEIVED_LENGTH];
 uint8_t _sending[DFPLAYER_SEND_LENGTH] =\
         {0x7E, 0xFF, 06, 00, 01, 00, 00, 00, 00, 0xEF};
@@ -28,36 +29,6 @@ void uint16ToArray(uint16_t value, uint8_t *array){
 
 /* See https://longan.sipeed.com/zh/examples/printf.html */
 
-void init_uart0(void)
-{
-    const struct device *uart2_dev;
-
-    uart2_dev = device_get_binding(USART2);
-    /* enable GPIO clock */
-    rcu_periph_clock_enable(RCU_GPIOA);
-    /* enable USART clock */
-    rcu_periph_clock_enable(RCU_USART0);
-
-    /* connect port to USARTx_Tx */
-    gpio_init(GPIOA, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_9);
-    /* connect port to USARTx_Rx */
-    gpio_init(GPIOA, GPIO_MODE_IN_FLOATING, GPIO_OSPEED_50MHZ, GPIO_PIN_10);
-
-    /* USART configure */
-    usart_deinit(USART0);
-    usart_baudrate_set(USART0, 115200U);
-    usart_word_length_set(USART0, USART_WL_8BIT);
-    usart_stop_bit_set(USART0, USART_STB_1BIT);
-    usart_parity_config(USART0, USART_PM_NONE);
-    usart_hardware_flow_rts_config(USART0, USART_RTS_DISABLE);
-    usart_hardware_flow_cts_config(USART0, USART_CTS_DISABLE);
-    usart_receive_config(USART0, USART_RECEIVE_ENABLE);
-    usart_transmit_config(USART0, USART_TRANSMIT_ENABLE);
-    usart_enable(USART0);
-
-    usart_interrupt_enable(USART0, USART_INT_RBNE);
-}
-
 int _put_char(int ch)
 {
     usart_data_transmit(USART0, (uint8_t) ch );
@@ -65,33 +36,6 @@ int _put_char(int ch)
     }
 
     return ch;
-}
-
-void init_uart2(void)
-{
-        
-    /* enable GPIO clock */
-    rcu_periph_clock_enable(RCU_GPIOB);
-    /* enable USART clock */
-    rcu_periph_clock_enable(RCU_USART2);
-    /* connect port to USARTx_Tx */
-    gpio_init(GPIOB, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_10);
-    /* connect port to USARTx_Rx */
-    gpio_init(GPIOB, GPIO_MODE_IN_FLOATING, GPIO_OSPEED_50MHZ, GPIO_PIN_11);
-
-    /* USART configure */
-    usart_deinit(USART2);
-    usart_baudrate_set(USART2, 9600U);
-    usart_word_length_set(USART2, USART_WL_8BIT);
-    usart_stop_bit_set(USART2, USART_STB_1BIT);
-    usart_parity_config(USART2, USART_PM_NONE);
-    usart_hardware_flow_rts_config(USART2, USART_RTS_DISABLE);
-    usart_hardware_flow_cts_config(USART2, USART_CTS_DISABLE);
-    usart_receive_config(USART2, USART_RECEIVE_ENABLE);
-    usart_transmit_config(USART2, USART_TRANSMIT_ENABLE);
-    usart_enable(USART2);
-
-    usart_interrupt_enable(USART2, USART_INT_RBNE);
 }
 
 int rc_uart_send(uint8_t cmd, uint8_t feedback, uint16_t data){

@@ -101,9 +101,6 @@ extern uint8_t _frame_get_current_status[DFPLAYER_SEND_LENGTH];
 void uint16ToArray(uint16_t value, uint8_t *array);
 uint16_t calculateCheckSum(uint8_t *buffer);
 
-void init_uart2(void);
-void init_uart0(void);
-
 
 int rc_uart_send(uint8_t cmd, uint8_t feedback, uint16_t data);
 int rc_uart_rcv(int fserial, int debug);
