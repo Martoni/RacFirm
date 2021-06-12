@@ -32,8 +32,6 @@
 #define SLEEP_TIME_MS   1000
 
 
-#define UART2_NODE DT_ALIAS(uart_2)
-
 /* The devicetree node identifier for the "led0" alias. */
 #define LED0_NODE DT_ALIAS(led0)
 
@@ -104,17 +102,13 @@ void main(void)
 {
     const struct device *led_dev;
     const struct device *display_dev;
-    const struct device *uart2_dev;
     struct display_capabilities capabilities;
     bool led_is_on = true;
     int ret;
 
-    const struct uart_config uart2_cfg;
+    printk("Test RacFirm\n");
 
-    /* test uart2 */
-    uart2_dev = device_get_binding("UART_2");
-	uart_config_get(uart2_dev, &uart2_cfg);
-
+    printk("init led\n");
     /* init led */
     led_dev = device_get_binding(LED0);
     if (led_dev == NULL) {
@@ -124,12 +118,14 @@ void main(void)
     if (ret < 0) {
         return;
     }
+    printk("init lcd\n");
 
     /* init lcd */
     display_dev = device_get_binding(DISPLAY_DEV_NAME);
     if (display_dev == NULL) {
         return;
     }
+    printk("init get capabilities\n");
     display_get_capabilities(display_dev, &capabilities);
     uint32_t bufsize = capabilities.x_resolution \
                * capabilities.y_resolution \
@@ -137,11 +133,10 @@ void main(void)
     bufsize = 12800;
     printk("display buffer size = %d\n", bufsize);
 
-
-
     while (1) {
         gpio_pin_set(led_dev, PIN, (int)led_is_on);
         led_is_on = !led_is_on;
         k_msleep(SLEEP_TIME_MS);
+	printk("led %d\n", led_is_on);
     }
 }
